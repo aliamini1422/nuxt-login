@@ -15,7 +15,9 @@
 
                 <h1 class="text-[#fd2f70] text-[24px] font-bold mb-6">ثبت نام</h1>
 
-                <div class="w-full flex flex-col items-center justify-center gap-4">
+                <form
+                    @submit.prevent="signup"
+                    class="w-full flex flex-col items-center justify-center gap-4">
                   <div class="relative w-full">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -24,7 +26,7 @@
                               fill="#7D7D7D"/>
                       </svg>
                     </div>
-                    <input type="email" id="email" dir="rtl"
+                    <input type="email" v-model="email"
                            class="block w-full p-3 pr-10 text-right text-sm text-gray-900 bg-[#F2F2F2] rounded-lg self-stretch border border-transparent
                             outline outline-transparent focus:border-[#4ec083] duration-700"
                            placeholder="آدرس ایمیل" required/>
@@ -50,7 +52,7 @@
                           fill="#7D7D7D"/>
                       </svg>
                     </div>
-                    <input type="text" id="password"
+                    <input type="text" v-model="password"
                            class="block w-full p-3 pr-10 text-right text-sm text-gray-900 bg-[#F2F2F2] rounded-lg self-stretch border border-transparent
                             outline outline-transparent focus:border-[#4ec083] duration-700"
                            placeholder="رمز عبور" required/>
@@ -58,7 +60,7 @@
                     <div
                       class="flex justify-end items-center gap-1.5 text-[#707070] text-[13px] font-medium mt-1.5">
                       <label htmlFor="rules">قوانین و مقررات سایت را می پذیرم</label>
-                      <input type="checkbox" name="rules" id="rules" class="accent-transparent "/>
+                      <input type="checkbox" name="rules" id="rules" v-model="rules" class="accent-transparent "/>
                     </div>
                   </div>
 
@@ -70,7 +72,7 @@
                               fill="#7D7D7D"/>
                       </svg>
                     </div>
-                    <input type="text" id="code" dir="code"
+                    <input type="text" v-model="code"
                            class="block w-full p-3 pr-10 text-right text-sm text-gray-900 bg-[#F2F2F2] rounded-lg self-stretch border border-transparent
                             outline outline-transparent focus:border-[#4ec083] duration-700"
                            placeholder="کد دعوت(اختیاری)"/>
@@ -104,10 +106,10 @@
                   </div>
 
                   <div class="w-full flex justify-end gap-1.5 text-[#4F4F4F] text-[14px]">
-                    <a href="/login" class="text-[#07bc93] underline">ورود</a>
+                    <NuxtLink href="/login" class="text-[#07bc93] underline">ورود</NuxtLink>
                     <h3>حساب کاربری دارید؟</h3>
                   </div>
-                </div>
+                </form>
 
               </div>
             </section>
@@ -119,3 +121,36 @@
     <Footer />
 
 </template>
+
+
+<script setup>
+
+  const email = ref("")
+  const password = ref("")
+  const rules = ref(false)
+  const code = ref("")
+
+  const signup = async () =>{
+    if (rules.value){
+      const {data} = await $fetch('/api/register', {
+        baseURL: 'http://localhost:3333',
+        method: "POST",
+        body: {
+          email: email.value,
+          password: password.value,
+          code: code.value,
+        },
+        onResponse() {
+          navigateTo('/login')
+        },
+        onResponseError({ response }) {
+          // Handle the response errors
+          console.log(response)
+
+        }
+      })
+    }
+
+  }
+
+</script>

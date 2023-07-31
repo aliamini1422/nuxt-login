@@ -1,10 +1,6 @@
 <script>
 import nuxtStorage from "nuxt-storage/nuxt-storage";
 
-useHead({
-  title: 'Login'
-})
-
 
 export default {
   data() {
@@ -141,7 +137,7 @@ export default {
               </div>
 
               <div class="w-full flex justify-end gap-1.5 text-[#4F4F4F] text-[14px]">
-                <a href="/signup" class="text-[#07bc93] underline">ثبت نام</a>
+                <NuxtLink href="/signup" class="text-[#07bc93] underline">ثبت نام</NuxtLink>
                 <h3>حساب کاربری ندارید؟</h3>
               </div>
             </div>
