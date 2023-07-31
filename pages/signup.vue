@@ -1,5 +1,5 @@
 <template>
-  <AuthCardWrapper title="ثبت نام">
+  <TheAuthCardWrapper title="ثبت نام">
     <form @submit.prevent="signup" class="w-full flex flex-col items-center justify-center gap-4">
       <TheInput type="email"
                 placeHolder="آدرس ایمیل"
@@ -11,7 +11,6 @@
                 fill="#7D7D7D"/>
         </svg>
       </TheInput>
-
 
       <TheInput
           type="text"
@@ -65,12 +64,16 @@
         <h3>حساب کاربری دارید؟</h3>
       </div>
     </form>
-  </AuthCardWrapper>
+  </TheAuthCardWrapper>
 
 </template>
 
 
 <script setup>
+
+import {toast} from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 
 const email = ref("")
 const password = ref("")
@@ -79,7 +82,7 @@ const code = ref("")
 
 const signup = async () => {
   if (rules.value) {
-    const {data} = await $fetch('/api/register', {
+    await $fetch('/api/register', {
       baseURL: 'http://localhost:3333',
       method: "POST",
       body: {
@@ -87,14 +90,19 @@ const signup = async () => {
         password: password.value,
         code: code.value,
       },
-      onResponse() {
-        navigateTo('/login')
+      onResponse({response}) {
+        if (response.status === 201){
+          toast.success("ثبت نام انجام شد", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+        if (response.status === 403){
+          toast.error(response._data, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
       },
-      onResponseError({response}) {
-        // Handle the response errors
-        console.log(response)
 
-      }
     })
   }
 

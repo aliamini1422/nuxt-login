@@ -1,5 +1,5 @@
 <template>
-  <AuthCardWrapper title="ورود">
+  <TheAuthCardWrapper title="ورود">
     <form
         @submit.prevent="login"
         class="w-full flex flex-col items-center justify-center gap-4">
@@ -19,8 +19,7 @@
           type="text"
           placeHolder="رمز عبور"
           :modelValue="password"
-          @update:modelValue="newValue => password = newValue"
-      >
+          @update:modelValue="newValue => password = newValue">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path
               d="M15 8.95829C14.6584 8.95829 14.375 8.67496 14.375 8.33329V6.66663C14.375 4.04163 13.6334 2.29163 10 2.29163C6.36668 2.29163 5.62501 4.04163 5.62501 6.66663V8.33329C5.62501 8.67496 5.34167 8.95829 5 8.95829C4.65833 8.95829 4.375 8.67496 4.375 8.33329V6.66663C4.375 4.24996 4.95834 1.04163 10 1.04163C15.0417 1.04163 15.6251 4.24996 15.6251 6.66663V8.33329C15.6251 8.67496 15.3417 8.95829 15 8.95829Z"
@@ -40,32 +39,35 @@
         </svg>
       </TheInput>
 
-      <p class="w-full flex justify-end text-right text-[#7D7D7D] text-[12px] font-bold mb-2 hover:text-[#FD2F70]">رمزعبور خود
+      <p class="w-full flex justify-end text-right text-[#7D7D7D] text-[12px] font-bold mb-2 hover:text-[#FD2F70]">
+        رمزعبور خود
         را فراموش کرده ام</p>
 
       <TheMainButton title="ورود"/>
 
-      <div class="w-full">
-        <TheGoogleLoginBtn />
-      </div>
+        <TheGoogleLoginBtn/>
 
       <div class="w-full flex justify-end gap-1.5 text-[#4F4F4F] text-[14px]">
         <NuxtLink href="/signup" class="text-[#07bc93] underline">ثبت نام</NuxtLink>
         <h3>حساب کاربری ندارید؟</h3>
       </div>
     </form>
-  </AuthCardWrapper>
+
+  </TheAuthCardWrapper>
 </template>
 
 
 <script setup>
 
+import {toast} from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
 
 const email = ref("")
 const password = ref("")
 
-const login = async () =>{
-  const {data} = await $fetch('/api/login', {
+const login = async () => {
+  await $fetch('/api/login', {
     baseURL: 'http://localhost:3333',
     method: "POST",
     body: {
@@ -73,17 +75,21 @@ const login = async () =>{
       password: password.value,
     },
     onResponse({response}) {
-      const user = useCookie('user')
-      user.value = response._data
-      navigateTo('/')
+        if (response.status === 200){
+          toast.success("خوش آمدید", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          const user = useCookie('user')
+          user.value = response._data
+          navigateTo('/')
+        }else{
+          toast.error(response._data, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
     },
-    onResponseError({ response }) {
-      // Handle the response errors
-      console.log(response)
 
-    }
   })
 
 }
-
 </script>
