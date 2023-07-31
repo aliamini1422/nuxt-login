@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { 
     enabled: true,
-    // pages:true
+    pages:true
    },
    css: ['~/assets/css/main.css'],
    postcss: {

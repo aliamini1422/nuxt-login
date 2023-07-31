@@ -1,7 +1,10 @@
 <script>
+import nuxtStorage from "nuxt-storage/nuxt-storage";
+
 useHead({
   title: 'Login'
 })
+
 
 export default {
   data() {
@@ -24,33 +27,23 @@ export default {
         body: {
           email: this.email,
           password: this.password,
+        },
+        onResponse({ request, response, options }) {
+          // Process the response data
+          // nuxtStorage.localStorage.setData()
+          const token = useCookie('token')
+          token.value = response._data
+          // console.log(response._data)
+          navigateTo('/')
+        },
+        onResponseError({ request, response, options }) {
+          // Handle the response errors
+          console.log(response)
+
         }
       })
 
-      /*       const {data, pending, error, refresh} = await useFetch('http://localhost:3333/api/login',{
-               onRequest({ request, options }) {
-                 // Set the request headers
-                 options.method= 'POST'
-                 // options.headers = options.headers || {}
-                 // options.headers.authorization = '...'
-                 options.body = {email: this.email, password: this.password}
-               },
-               onRequestError({ request, options, error }) {
-                 // Handle the request errors
-               },
-               onResponse({ request, response, options }) {
-                 // Process the response data
-                 // localStorage.setItem('token', response._data.token)
-                 console.log("success")
-               },
-               onResponseError({ request, response, options }) {
-                 // Handle the response errors
-                 console.log(response)
 
-               }
-             })*/
-
-      console.log(data)
     }
   }
 }
