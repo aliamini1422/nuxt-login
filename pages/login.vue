@@ -57,6 +57,7 @@
 import {toast} from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
+
 const email = ref("")
 const password = ref("")
 
@@ -69,19 +70,31 @@ const login = async () => {
       password: password.value,
     },
     onResponse({response}) {
-      if (response.status === 200) {
-        toast.success("خوش آمدید", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        const user = useCookie('user')
-        user.value = response._data
-        navigateTo('/')
-      } else {
-        toast.error(response._data, {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
+      if (response._data.errors[0].message === "E_INVALID_AUTH_PASSWORD: Password mis-match") {
+          toast.error("پسورد مطابقت ندارد", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+      } else if (response._data.errors[0].message === "E_INVALID_AUTH_UID: User not found") {
+        console.log(response._data.errors[0].message)
+          toast.error("کاربری با این ایمیل یافت نشد", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
       }
+
+      // if (response.status === 200) {
+      //   toast.success("خوش آمدید", {
+      //     position: toast.POSITION.TOP_CENTER,
+      //   });
+      //   const user = useCookie('user')
+      //   user.value = response._data
+      //   navigateTo('/')
+      // } else {
+      //   toast.error(response._data, {
+      //     position: toast.POSITION.BOTTOM_LEFT,
+      //   });
+      // }
     },
+
 
   })
 

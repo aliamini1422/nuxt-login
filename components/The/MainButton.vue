@@ -7,4 +7,5 @@
 
 <script setup>
   const title = defineProps(['title'])
+
 </script>

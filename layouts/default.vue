@@ -1,11 +1,11 @@
 <template>
   <div>
     <TheHeader />
-      <main class="relative w-full max-h-screen flex justify-between items-center py-14 overflow-hidden">
-        <div class="w-100 h-100 -z-10 absolute top-0 left-0">
-          <img class="w-screen h-screen object-cover" src="../assets/img/Pattern.png" alt="pattern"/>
+      <main class="relative w-full h-screen flex justify-between items-start py-12 overflow-hidden">
+        <div class="w-100 h-full -z-10 absolute top-0 left-0">
+          <img class="w-screen h-full object-cover" src="../assets/img/Pattern.png" alt="pattern"/>
         </div>
-        <div class="m-auto">
+        <div class="mx-auto ">
           <slot />
         </div>
       </main>
