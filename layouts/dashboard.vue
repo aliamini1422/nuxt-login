@@ -52,6 +52,7 @@ import 'vue3-toastify/dist/index.css';
             position: toast.POSITION.TOP_CENTER,
           });
           user.value = null
+          navigateTo("/signup")
         }else{
           toast.error(response._data, {
             position: toast.POSITION.BOTTOM_LEFT,

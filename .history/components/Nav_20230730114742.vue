@@ -1,6 +1,0 @@
-<template>
-   <nav>
-
-    
-   </nav>
-</template>

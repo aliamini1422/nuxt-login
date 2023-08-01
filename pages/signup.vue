@@ -1,5 +1,5 @@
 <template>
-  <TheAuthCardWrapper title="ثبت نام">
+  <NuxtLayout name="wrapper" title="ثبت نام">
     <form @submit.prevent="signup" class="w-full flex flex-col items-center justify-center gap-4">
       <TheInput type="email"
                 placeHolder="آدرس ایمیل"
@@ -13,7 +13,6 @@
       </TheInput>
 
       <TheInput
-          type="text"
           placeHolder="رمز عبور"
           :modelValue="password"
           @update:modelValue="newValue => password = newValue">
@@ -42,7 +41,7 @@
       </div>
 
       <TheInput
-          type="text"
+          :required="false"
           placeHolder="کد دعوت (اختیاری)"
           :modelValue="code"
           @update:modelValue="newValue => code = newValue">
@@ -55,16 +54,14 @@
 
       <TheMainButton title="ثبت نام"/>
 
-      <div class="w-full">
-        <TheGoogleLoginBtn/>
-      </div>
+      <TheGoogleLoginBtn/>
 
       <div class="w-full flex justify-end gap-1.5 text-[#4F4F4F] text-[14px]">
         <NuxtLink href="/login" class="text-[#07bc93] underline">ورود</NuxtLink>
         <h3>حساب کاربری دارید؟</h3>
       </div>
     </form>
-  </TheAuthCardWrapper>
+  </NuxtLayout>
 
 </template>
 
@@ -95,6 +92,7 @@ const signup = async () => {
           toast.success("ثبت نام انجام شد", {
             position: toast.POSITION.TOP_CENTER,
           });
+          navigateTo('/login')
         }
         if (response.status === 403){
           toast.error(response._data, {

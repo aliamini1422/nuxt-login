@@ -1,5 +1,5 @@
 <template>
-  <TheAuthCardWrapper title="ورود">
+  <NuxtLayout name="wrapper" title="ورود">
     <form
         @submit.prevent="login"
         class="w-full flex flex-col items-center justify-center gap-4">
@@ -16,7 +16,6 @@
       </TheInput>
 
       <TheInput
-          type="text"
           placeHolder="رمز عبور"
           :modelValue="password"
           @update:modelValue="newValue => password = newValue">
@@ -53,7 +52,7 @@
       </div>
     </form>
 
-  </TheAuthCardWrapper>
+  </NuxtLayout>
 </template>
 
 
@@ -61,7 +60,6 @@
 
 import {toast} from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
-
 
 const email = ref("")
 const password = ref("")
