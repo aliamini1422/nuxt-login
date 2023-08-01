@@ -1,5 +1,6 @@
 <template>
   <button
+      @click.prevent="googleLogin"
       class="w-full flex items-center justify-end gap-2 bg-[#F2F2F2] p-4 text-[#7D7D7D]
                       rounded-lg hover:text-[#4F4F4F] hover:border transition duration-700">
     ثبت نام با حساب گوگل
@@ -17,3 +18,16 @@
     </svg>
   </button>
 </template>
+
+<script setup>
+  const googleLogin = async ()=>{
+    await $fetch('/api/google/redirect', {
+      baseURL: 'http://localhost:3333',
+      method: "GET",
+      onResponse({response}) {
+        console.log(response)
+      },
+
+    })
+  }
+</script>

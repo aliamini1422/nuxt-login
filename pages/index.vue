@@ -6,8 +6,6 @@
 
 </template>
 
-
-
 <script setup>
 
   definePageMeta({
@@ -18,8 +16,4 @@
     if (!user.value) {
       navigateTo('login')
     }
-
-
-
-
 </script>

@@ -1,13 +1,10 @@
 <template>
   <NuxtLayout name="wrapper" title="ورود">
-    <form
-        @submit.prevent="login"
-        class="w-full flex flex-col items-center justify-center gap-4">
-
-      <TheInput type="email"
-                placeHolder="آدرس ایمیل"
-                :modelValue="email"
-                @update:modelValue="newValue => email = newValue">
+    <form @submit.prevent="login" class="w-full flex flex-col items-center justify-center gap-4">
+      <TheInput
+          type="email"
+          placeHolder="آدرس ایمیل"
+          v-model="email">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path fillRule="evenodd" clipRule="evenodd"
                 d="M5.8327 17.7083H14.1661C17.2078 17.7083 18.9578 15.9583 18.9578 12.9166V7.08329C18.9578 4.04163 17.2078 2.29163 14.1661 2.29163H5.8327C2.79102 2.29163 1.04102 4.04163 1.04102 7.08329V12.9166C1.04102 15.9583 2.79102 17.7083 5.8327 17.7083ZM2.29102 7.08329C2.29102 4.69996 3.44936 3.54163 5.8327 3.54163H14.1661C16.5494 3.54163 17.7078 4.69996 17.7078 7.08329V12.9166C17.7078 15.3 16.5494 16.4583 14.1661 16.4583H5.8327C3.44936 16.4583 2.29102 15.3 2.29102 12.9166V7.08329ZM8.0492 10.0666C8.59087 10.5083 9.2992 10.7249 9.9992 10.7249C10.6992 10.7249 11.4075 10.5083 11.9409 10.0666L14.5492 7.98327C14.8242 7.77494 14.8659 7.37493 14.6492 7.10827C14.4409 6.83327 14.0409 6.7916 13.7742 7.00827L11.1659 9.0916C10.5325 9.59994 9.45753 9.59994 8.8242 9.0916L6.21586 7.00827C5.94919 6.7916 5.55752 6.8416 5.34085 7.10827C5.12419 7.37493 5.17418 7.7666 5.44085 7.98327L8.0492 10.0666Z"
@@ -17,8 +14,7 @@
 
       <TheInput
           placeHolder="رمز عبور"
-          :modelValue="password"
-          @update:modelValue="newValue => password = newValue">
+          v-model="password">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path
               d="M15 8.95829C14.6584 8.95829 14.375 8.67496 14.375 8.33329V6.66663C14.375 4.04163 13.6334 2.29163 10 2.29163C6.36668 2.29163 5.62501 4.04163 5.62501 6.66663V8.33329C5.62501 8.67496 5.34167 8.95829 5 8.95829C4.65833 8.95829 4.375 8.67496 4.375 8.33329V6.66663C4.375 4.24996 4.95834 1.04163 10 1.04163C15.0417 1.04163 15.6251 4.24996 15.6251 6.66663V8.33329C15.6251 8.67496 15.3417 8.95829 15 8.95829Z"
@@ -44,7 +40,7 @@
 
       <TheMainButton title="ورود"/>
 
-        <TheGoogleLoginBtn/>
+      <TheGoogleLoginBtn/>
 
       <div class="w-full flex justify-end gap-1.5 text-[#4F4F4F] text-[14px]">
         <NuxtLink href="/signup" class="text-[#07bc93] underline">ثبت نام</NuxtLink>
@@ -73,18 +69,18 @@ const login = async () => {
       password: password.value,
     },
     onResponse({response}) {
-        if (response.status === 200){
-          toast.success("خوش آمدید", {
-            position: toast.POSITION.TOP_CENTER,
-          });
-          const user = useCookie('user')
-          user.value = response._data
-          navigateTo('/')
-        }else{
-          toast.error(response._data, {
-            position: toast.POSITION.BOTTOM_LEFT,
-          });
-        }
+      if (response.status === 200) {
+        toast.success("خوش آمدید", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        const user = useCookie('user')
+        user.value = response._data
+        navigateTo('/')
+      } else {
+        toast.error(response._data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      }
     },
 
   })
